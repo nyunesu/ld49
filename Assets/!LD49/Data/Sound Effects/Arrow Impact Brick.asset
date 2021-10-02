@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6d59fc68f46f4f8ca308a8d9cb8c1868, type: 3}
+  m_Name: Arrow Impact Brick
+  m_EditorClassIdentifier: 
+  AudioClips:
+  - {fileID: 8300000, guid: 8031ffccd181b7d4e83b204ca3b6fc39, type: 3}
+  - {fileID: 8300000, guid: d0133193b900b8d4195b2e2326583fd0, type: 3}
+  Type: 3
+  Volume: 1

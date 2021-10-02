@@ -40,7 +40,7 @@ Physics2DSettings:
     m_IslandSolverContactsPerJob: 50
   m_SimulationMode: 0
   m_QueriesHitTriggers: 1
-  m_QueriesStartInColliders: 1
+  m_QueriesStartInColliders: 0
   m_CallbacksOnDisable: 1
   m_ReuseCollisionCallbacks: 1
   m_AutoSyncTransforms: 0
@@ -53,4 +53,4 @@ Physics2DSettings:
   m_ColliderAsleepColor: {r: 0.5686275, g: 0.95686275, b: 0.54509807, a: 0.36078432}
   m_ColliderContactColor: {r: 1, g: 0, b: 1, a: 0.6862745}
   m_ColliderAABBColor: {r: 1, g: 1, b: 0, a: 0.2509804}
-  m_LayerCollisionMatrix: c9fdff7f48f8ff7f48f8ff7fffffffff48f8ff7f48f8ff7fbffbff7f49fdff7fc9fcff7f48f8ff7f89f9ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff08fcff7f
+  m_LayerCollisionMatrix: c9fdff7f08f8ff7f08f8ff7fffffffff08f8ff7f08f8ff7f89faff7fc9fdff7f89fcff7f48f8ff7f89f9ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff08fcff7f

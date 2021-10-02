@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6d59fc68f46f4f8ca308a8d9cb8c1868, type: 3}
+  m_Name: Arrow Impact Flesh
+  m_EditorClassIdentifier: 
+  AudioClips:
+  - {fileID: 8300000, guid: 6c27de6aac0a6b34c888ab284e9f8767, type: 3}
+  - {fileID: 8300000, guid: c43175ef2299e684e87354e04b8d0f7d, type: 3}
+  - {fileID: 8300000, guid: 24e7aa90e5f02b34d80e77621599851b, type: 3}
+  - {fileID: 8300000, guid: 4198c60813cf8534ca251194d3760c1c, type: 3}
+  - {fileID: 8300000, guid: 9da340dded155f847b3677b5d3196c5c, type: 3}
+  - {fileID: 8300000, guid: de946b4358071aa4b957e857acea9c00, type: 3}
+  - {fileID: 8300000, guid: 69f7c4591b9e08346a8a1207b0102b52, type: 3}
+  - {fileID: 8300000, guid: 7c0287ede6430e04881e7f24cfd61b0e, type: 3}
+  Type: 2
+  Volume: 1

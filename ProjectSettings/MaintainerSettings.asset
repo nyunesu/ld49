@@ -88,16 +88,46 @@ MonoBehaviour:
       kind: 0
       value: Assets/TextMesh Pro
       exactMatch: 0
+    - enabled: 1
+      ignoreCase: 0
+      kind: 0
+      value: Assets/!!!
+      exactMatch: 0
+    - enabled: 1
+      ignoreCase: 0
+      kind: 0
+      value: Assets/!Game
+      exactMatch: 0
+    - enabled: 1
+      ignoreCase: 0
+      kind: 0
+      value: Assets/ConsolePro
+      exactMatch: 0
+    - enabled: 1
+      ignoreCase: 0
+      kind: 0
+      value: Assets/Epic Toon FX
+      exactMatch: 0
+    - enabled: 1
+      ignoreCase: 0
+      kind: 0
+      value: Assets/Editor
+      exactMatch: 0
+    - enabled: 1
+      ignoreCase: 0
+      kind: 0
+      value: Assets/WebGLTemplates
+      exactMatch: 0
     pathIncludesFilters: []
     sceneIgnoresFilters: []
     ignoreScenesInBuild: 1
     ignoreOnlyEnabledScenesInBuild: 1
-    scenesSelection: 10
+    scenesSelection: 5
     findUnreferencedAssets: 1
     findUnreferencedScripts: 0
     findEmptyFolders: 1
     findEmptyFoldersAutomatically: 1
-    useTrashBin: 1
+    useTrashBin: 0
     rescanAfterContextIgnore: 1
   referencesFinderSettings:
     pathIgnoresFilters: []

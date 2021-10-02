@@ -1,0 +1,49 @@
+Max Totems: 7
+
+==== TOTEMS:
+* Lightning Totem
+		I 	> Lightning Totem I
+		II 	> Lightning Totem II
+		III	> Storm Totem
+
+	[I, II] - Attacks also damage nearby enemies with [20%/50%] of damage
+	[III] - Throws an energy orb that does damage to nearby enemies
+
+	Damage Type: Targeted
+	Classes: Tempest
+
+* Frost Totem
+		I 	> Frost Totem I
+		II 	> Frost Totem II
+		III	> Blizzard Totem
+	[I, II] - Slow enemies movespeed by [30%/80%]
+	[III] - Freeze enemies after a medium amount of hits for a few seconds
+
+	Damage Type: Projectile
+	Classes: Glacial
+
+* Flame Totem
+		I 	> Flame Totem I
+		II 	> Flame Totem II
+		III	> Molten Totem
+	[I, II] - Area size increased by [30%/80%]
+	[III] - Adds X burn seals to an enemy (StS poison)
+
+	Damage Type: Area
+	Classes: Infernal
+
+===== SYNERGIES:
+Tempest [2, 4] - Attack speed increased by [20%/50%]
+Glacial [2, 4] - Decrease overheat amount by [20%/50%]
+Infernal [2, 4] - Damage increased by [20%/50%]
+
+
+==== ENEMIES:
+Ants
+	- A bunch of small enemies // big enemy that explodes into small enemies
+Yeti
+	- One slow enemy with tons of health
+Goblin
+	- Medium health fast enemy
+Cleric
+	- Heal enemies 

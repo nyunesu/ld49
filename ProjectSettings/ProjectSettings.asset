@@ -12,8 +12,8 @@ PlayerSettings:
   targetDevice: 2
   useOnDemandResources: 0
   accelerometerFrequency: 60
-  companyName: Felipe Mello
-  productName: Template
+  companyName: 283ade
+  productName: ld49
   defaultCursor: {fileID: 0}
   cursorHotspot: {x: 15, y: 10}
   m_SplashScreenBackgroundColor: {r: 0.1882353, g: 0.1882353, b: 0.1882353, a: 1}
@@ -44,8 +44,8 @@ PlayerSettings:
   m_HolographicTrackingLossScreen: {fileID: 0}
   defaultScreenWidth: 1440
   defaultScreenHeight: 1080
-  defaultScreenWidthWeb: 768
-  defaultScreenHeightWeb: 432
+  defaultScreenWidthWeb: 1024
+  defaultScreenHeightWeb: 576
   m_StereoRenderingPath: 0
   m_ActiveColorSpace: 0
   m_MTRendering: 1
@@ -319,7 +319,7 @@ PlayerSettings:
   openGLRequireES31AEP: 0
   openGLRequireES32: 0
   m_TemplateCustomTags:
-    OPTIMIZE_FOR_PIXEL_ART: 
+    OPTIMIZE_FOR_PIXEL_ART: true
   mobileMTRendering:
     Android: 1
     iPhone: 1
@@ -560,7 +560,7 @@ PlayerSettings:
   blurSplashScreenBackground: 0
   spritePackerPolicy: 
   webGLMemorySize: 32
-  webGLExceptionSupport: 0
+  webGLExceptionSupport: 3
   webGLNameFilesAsHashes: 0
   webGLDataCaching: 1
   webGLDebugSymbols: 0
