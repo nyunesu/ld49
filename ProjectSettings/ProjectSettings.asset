@@ -319,7 +319,7 @@ PlayerSettings:
   openGLRequireES31AEP: 0
   openGLRequireES32: 0
   m_TemplateCustomTags:
-    OPTIMIZE_FOR_PIXEL_ART: true
+    OPTIMIZE_FOR_PIXEL_ART: 
   mobileMTRendering:
     Android: 1
     iPhone: 1
