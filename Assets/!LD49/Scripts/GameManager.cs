@@ -7,7 +7,6 @@ public class GameManager : MonoSingleton<GameManager>
 	private StageManager stageManager;
 
 	public static int LinkDistance = 4;
-	public static float UpgradeDistance = 1.5f;
 
 	private void Start()
 	{
