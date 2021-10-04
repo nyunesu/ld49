@@ -8,10 +8,10 @@ public class TotemInfo : ScriptableObject
 		get => Cost - 1;
 	}
 
+	public float ProjectileSpeed;
+	public int Damage;
 	public float FireInterval;
-
 	public Projectile Projectile;
-
 	public float MaxHeat;
 	public float HeatPerShot;
 	public float Range = 2;
@@ -22,6 +22,7 @@ public class TotemInfo : ScriptableObject
 	public Totem TotemPrefab;
 	public TotemType Type;
 	public TotemUpgrade Upgrade;
+
 	[TextArea]
 	public string Description;
 

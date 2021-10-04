@@ -1,4 +1,5 @@
-﻿using ADEStats;
+﻿using System;
+using ADEStats;
 using ADEUtility;
 using UnityEngine;
 using UnityEngine.UI;
@@ -24,6 +25,8 @@ public class Totem : MonoBehaviour
 	private bool isOverheated;
 	private Minion target;
 	private float nextFireTime;
+	[SerializeField]
+	private int anticipationFrames = 6;
 
 	private void Update()
 	{
@@ -68,6 +71,12 @@ public class Totem : MonoBehaviour
 		GameManager.GetInstance().SetTooltip(false);
 	}
 
+	private void Start()
+	{
+		if (Info)
+			Setup(Info);
+	}
+
 	public void Setup(TotemInfo totemInfo)
 	{
 		points = 0;
@@ -97,11 +106,11 @@ public class Totem : MonoBehaviour
 
 	private void LookToTarget()
 	{
+		Vector3 lookPoint = target.transform.position + (Vector3) (target.Velocity * Time.deltaTime * anticipationFrames);
 		float angleToTarget
-			= Helper.GetAngleFromVector(transform.position.DirectionTo(target.transform.position));
+			= Helper.GetAngleFromVector(transform.position.DirectionTo(lookPoint));
 
-		Quaternion targetLookRotation = Quaternion.Euler(0, 0, angleToTarget);
-		transform.rotation = targetLookRotation;
+		transform.eulerAngles = new Vector3(0, 0, angleToTarget);
 	}
 
 	private void TryFire()
@@ -110,7 +119,7 @@ public class Totem : MonoBehaviour
 			return;
 
 		heat.Value += Info.HeatPerShot;
-		Instantiate(Info.Projectile, firePoint.position, firePoint.rotation);
+		Instantiate(Info.Projectile, firePoint.position, firePoint.rotation).Setup(Info.ProjectileSpeed, Info.Damage, Info);
 		nextFireTime = Time.time + Info.FireInterval;
 		Helper.PlayParticleOnce(muzzleFx, firePoint);
 		SoundEffects.Play(SoundType.BowStringRelease);

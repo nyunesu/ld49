@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Wave 2
   m_EditorClassIdentifier: 
   EnemySpawns:
-  - Minion: {fileID: 700652277442740221, guid: 6dbc499c4002df24581b3bfe5e10fda6, type: 3}
+  - Minion: {fileID: 4035023488198230334, guid: 50cd6617bb19bda459687f687986ba41, type: 3}
     SpawnPosition: {x: 0, y: 1}
-  - Minion: {fileID: 700652277442740221, guid: 6dbc499c4002df24581b3bfe5e10fda6, type: 3}
+  - Minion: {fileID: 4035023488198230334, guid: 50cd6617bb19bda459687f687986ba41, type: 3}
     SpawnPosition: {x: 0, y: -1}

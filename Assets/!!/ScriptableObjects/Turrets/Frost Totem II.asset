@@ -12,18 +12,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3a14b956498c4cfe955c01d35bf64251, type: 3}
   m_Name: Frost Totem II
   m_EditorClassIdentifier: 
-  FireInterval: 0.54
-  Projectile: {fileID: -2883459397623371020, guid: c1a34b183ae32bc44b0555e793ba0480, type: 3}
-  MaxHeat: 3.45
-  HeatPerShot: 0.87
-  Range: 9.2
+  ProjectileSpeed: 34
+  Damage: 3
+  FireInterval: 0.15
+  Projectile: {fileID: 1086288221161995241, guid: 06f9bb0a7bc1b4f4095f7ac375461980, type: 3}
+  MaxHeat: 2.5
+  HeatPerShot: 0.4
+  Range: 15
   Cost: 4
   DisplayName: Frost Totem II
-  Sprite: {fileID: -9095717837082945937, guid: 207ee8102dd4143d288186ef0be518ee, type: 3}
-  Icon: {fileID: -9095717837082945937, guid: 207ee8102dd4143d288186ef0be518ee, type: 3}
+  Sprite: {fileID: -2413806693520163455, guid: a86470a33a6bf42c4b3595704624658b, type: 3}
+  Icon: {fileID: -2413806693520163455, guid: a86470a33a6bf42c4b3595704624658b, type: 3}
   TotemPrefab: {fileID: 2736673489002938861, guid: 0870c34dc0accd84e907d9ce12bfff96, type: 3}
   Type: 0
-  Upgrade: {fileID: 11400000, guid: 2e6c57895a7a51d45bfde91890864474, type: 2}
-  Description: 'Increases performance by 15%
-
-    Slow enemies movespeed by 50%'
+  Upgrade: {fileID: 11400000, guid: 83b1c1749f8fe7e4b996336c44c36bcf, type: 2}
+  Description: Slow enemies movespeed by 30%

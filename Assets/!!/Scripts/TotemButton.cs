@@ -7,9 +7,6 @@ public class TotemButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
 	[SerializeField]
 	private TotemInfo totemInfo;
 
-	[SerializeField]
-	private Image icon;
-
 	private Button button;
 
 	public void OnPointerEnter(PointerEventData eventData)
@@ -26,7 +23,6 @@ public class TotemButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
 	{
 		TryGetComponent(out button);
 		button.onClick.AddListener(Purchase);
-		icon.sprite = totemInfo.Icon;
 	}
 
 	private void Start()
@@ -46,13 +42,11 @@ public class TotemButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
 
 	private void Purchase()
 	{
-		GameManager.GetInstance().Purchase(totemInfo);
-		Destroy(gameObject);
+		GameManager.GetInstance().Select(totemInfo);
 	}
 
 	private void Refresh()
 	{
-		var gameManager = GameManager.GetInstance();
-		button.interactable = GameManager.GetInstance().Gold >= totemInfo.Cost && gameManager.TotemCount < gameManager.TotemCap;
+		button.interactable = GameManager.GetInstance().Gold >= totemInfo.Cost;
 	}
 }

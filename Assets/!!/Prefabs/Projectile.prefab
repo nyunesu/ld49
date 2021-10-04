@@ -211,5 +211,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   deathFX: {fileID: 0}
-  Speed: 18
+  Speed: 26
   Damage: 1

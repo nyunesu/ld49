@@ -7,8 +7,10 @@ using ADEUtility;
 using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.SceneManagement;
 using UnityEngine.Serialization;
 using UnityEngine.UI;
+using Random = UnityEngine.Random;
 
 public class GameManager : MonoSingleton<GameManager>
 {
@@ -21,7 +23,7 @@ public class GameManager : MonoSingleton<GameManager>
 	public int Gold
 	{
 		get => gold;
-		set
+		private set
 		{
 			gold = value;
 			UpdateHud();
@@ -62,24 +64,6 @@ public class GameManager : MonoSingleton<GameManager>
 	private Button playButton;
 
 	[SerializeField]
-	private int shopItemAmount = 3;
-
-	[SerializeField]
-	private Transform totemShopContainer;
-
-	[SerializeField]
-	private TotemButton totemShopButtonPrefab;
-
-	[SerializeField]
-	private Button rerollButton;
-
-	[SerializeField]
-	private int rerollCost = 1;
-
-	[SerializeField]
-	private Button lockButton;
-
-	[SerializeField]
 	private Button levelButton;
 
 	[SerializeField]
@@ -89,7 +73,7 @@ public class GameManager : MonoSingleton<GameManager>
 	private GhostTotem ghostTotem;
 
 	[SerializeField]
-	private int levelUpCost = 2;
+	private GameObject upgradePlane;
 
 	[SerializeField]
 	private int gold;
@@ -106,29 +90,41 @@ public class GameManager : MonoSingleton<GameManager>
 	[SerializeField]
 	private int stageReward = 5;
 
+	[SerializeField]
+	private float spawnOffset = .1f;
+
+	[SerializeField]
+	private int[] levelUpgradeCosts;
+
 	public event Action OnHudChanged;
 
-	public float UpgradeDistance = 2.5f;
-	private const int MaxLevel = 7;
-	private int level = 1;
-	private int stageIndex = -1;
-	private bool isShopLocked;
+	private int levelUpCost
+	{
+		get => levelUpgradeCosts[level - 1];
+	}
+
+	public float UpgradeDistance = 1f;
+
 	[FormerlySerializedAs("isPlaying")]
 	public bool IsPlaying;
 
-	protected override void Awake()
+	private int level = 1;
+	private int stageIndex = -1;
+	private bool isShopLocked;
+	private Coroutine stageRoutine;
+	private static GameManager instance;
+	private bool gameEnded = false;
+
+	protected void Awake()
 	{
-		base.Awake();
-		rerollButton.onClick.AddListener(BuyReroll);
+		instance = this;
+		
+		if (SceneManager.GetActiveScene().buildIndex > 0)
+			return;
 
-		rerollButton.gameObject.AddComponent<PointerCallback>()
-			.SetCallback(DisplayRerollTooltip, () => SetTooltip(false));
-
-		lockButton.onClick.AddListener(ToggleShopLock);
-
-		lockButton.gameObject.AddComponent<PointerCallback>()
-			.SetCallback(DisplayLockTooltip, () => SetTooltip(false));
-
+		if (!levelButton)
+			return;
+		
 		levelButton.onClick.AddListener(LevelUp);
 
 		levelButton.gameObject.AddComponent<PointerCallback>()
@@ -139,17 +135,31 @@ public class GameManager : MonoSingleton<GameManager>
 
 	private void Start()
 	{
+		if (SceneManager.GetActiveScene().buildIndex > 0 || gameEnded)
+			return;
+		
 		Minion.ClearActive();
 		MusicManager.SetVolume(musicVolume);
 		SetTooltip(false);
 		SetGhost(false);
-		PerformReroll();
 		UpdateHud();
 	}
 
 	private void Update()
 	{
-		if (tooltip.gameObject.activeSelf)
+		if (SceneManager.GetActiveScene().buildIndex > 0 || gameEnded)
+			return;
+		
+		if (SelectedTotem && Input.GetMouseButtonDown(1))
+			Deselect();
+		
+		if (Input.GetKeyDown(KeyCode.R))
+			Reset();
+
+		if (Input.GetKeyDown(KeyCode.F6))
+			EndGame();
+		
+		if (tooltip != null && tooltip.gameObject.activeSelf)
 		{
 			tooltip.transform.position = Input.mousePosition;
 
@@ -168,14 +178,19 @@ public class GameManager : MonoSingleton<GameManager>
 
 	public void SetTooltip(bool value, string context = "")
 	{
+		if (!tooltip)
+		{
+			Reset();
+			return;
+		}
+
 		tooltip.gameObject.SetActive(value);
 		tooltipDescription.SetText(context);
 		tooltipLayoutElement.enabled = tooltipDescription.text.Length > tooltipCharacterLimit;
 	}
 
-	public void Purchase(TotemInfo totemInfo)
+	public void Select(TotemInfo totemInfo)
 	{
-		Gold -= totemInfo.Cost;
 		SelectTotem(totemInfo);
 	}
 
@@ -191,24 +206,29 @@ public class GameManager : MonoSingleton<GameManager>
 	{
 		if (stageIndex >= (stages.Length - 1))
 		{
-			GameSceneManager.LoadNext();
+			EndGame();
 			return;
 		}
 
 		IsPlaying = false;
 		Gold += stageReward;
-
-		if (!isShopLocked)
-			PerformReroll();
-
 		HandleButtonPress();
+	}
+
+	private void EndGame()
+	{
+		if (stageRoutine != null)
+			StopCoroutine(stageRoutine);
+
+		gameEnded = true;
+		SceneManager.LoadScene(1);
 	}
 
 	private void StartNextStage()
 	{
 		IsPlaying = true;
 		stageIndex++;
-		StartCoroutine(StageRoutine(stages[stageIndex]));
+		stageRoutine = StartCoroutine(StageRoutine(stages[stageIndex]));
 		HandleButtonPress();
 	}
 
@@ -218,11 +238,16 @@ public class GameManager : MonoSingleton<GameManager>
 		{
 			foreach (EnemyTransform enemySpawn in stageWave.EnemySpawns)
 			{
-				Instantiate(
-					enemySpawn.Minion,
-					enemySpawn.SpawnPosition * gameScreenSize,
-					Quaternion.identity
-				);
+				for (int i = 0; i < enemySpawn.Amount; i++)
+				{
+					Instantiate(
+						enemySpawn.Minion,
+						(enemySpawn.SpawnPosition * gameScreenSize) + (Random.insideUnitCircle * spawnOffset),
+						Quaternion.identity
+					);
+
+					yield return null;
+				}
 
 				yield return null;
 			}
@@ -254,9 +279,6 @@ public class GameManager : MonoSingleton<GameManager>
 		if (EventSystem.current.IsPointerOverGameObject())
 			return;
 
-		if (TotemCount >= TotemCap)
-			return;
-
 		Vector3 worldMouse = Helper.GetMouseWorldPosition();
 
 		if (Helper.GetClosestObjectInCircleRadius(worldMouse, UpgradeDistance, out Core _))
@@ -281,63 +303,57 @@ public class GameManager : MonoSingleton<GameManager>
 			Totem upgradableTotem = totemsInUpgradeRange.First(x => x.Info.Type == SelectedTotem.Type);
 
 			if (upgradableTotem && upgradableTotem.Info.Upgrade)
+			{
 				upgradableTotem.Upgrade();
+				Gold -= SelectedTotem.Cost;
+			}
 			else
 				return;
 		}
 		else
 		{
+			if (TotemCount >= TotemCap)
+			{
+				Deselect();
+				return;
+			}
+
 			Totem totemInstance = Instantiate(SelectedTotem.TotemPrefab, worldMouse, Quaternion.identity);
+			Gold -= SelectedTotem.Cost;
 			totemInstance.Setup(SelectedTotem);
 			TotemCount++;
 		}
 
+		Deselect();
+	}
+
+	private void Deselect()
+	{
 		SelectedTotem = null;
 		SetGhost(false);
 		HandleButtonPress();
 	}
 
-	private void DisplayLockTooltip()
-	{
-		string tooltipText = isShopLocked
-			? "Unlocks current selection of shop items"
-			: "Locks current selection of shop items";
-
-		SetTooltip(true, tooltipText);
-	}
-
-	private void DisplayRerollTooltip()
-	{
-		SetTooltip(
-			true,
-			$"Replace current selection of shop items\nwith new randomized options\n(${rerollCost})"
-		);
-	}
-
 	private void DisplayLevelTooltip()
 	{
-		SetTooltip(true, $"Increase Level by 1\nIncreases totem maximum amount\n(${levelUpCost})");
+		SetTooltip(true, "Level +1\nTotem Amount +1");
 	}
 
 	private void UpdateHud()
 	{
 		shopGroup.interactable = !IsPlaying && !SelectedTotem;
 		totemDescription.SetText($"Totem [{TotemCount}/{TotemCap}]");
-		waveCount.SetText($"Stage [{stageIndex}/{stages.Length}]");
-		bool isMaxLevel = level >= MaxLevel;
+		waveCount.SetText($"Stage [{stageIndex + 1}/{stages.Length}]");
+		bool isMaxLevel = level > levelUpgradeCosts.Length;
 		levelButton.interactable = !IsPlaying && !isMaxLevel && Gold >= levelUpCost;
-		levelButtonDescription.SetText(isMaxLevel ? "MAX LEVEL" : $"Lv.{level}");
-		rerollButton.interactable = !IsPlaying && Gold >= rerollCost;
+		levelButtonDescription.SetText(isMaxLevel ? "MAX LEVEL" : $"Lv ({level}/{levelUpgradeCosts.Length + 1})");
+		if (!isMaxLevel)
+			levelButtonDescription.text += $"\n(${levelUpCost})";
 		goldDescription.SetText($"${Gold}");
 		playGroup.alpha = IsPlaying ? 0 : 1;
 		playGroup.interactable = !IsPlaying;
+		upgradePlane.SetActive(SelectedTotem && TotemCount >= TotemCap);
 		OnHudChanged?.Invoke();
-	}
-
-	private void ToggleShopLock()
-	{
-		isShopLocked = !isShopLocked;
-		HandleButtonPress();
 	}
 
 	private void HandleButtonPress()
@@ -346,28 +362,19 @@ public class GameManager : MonoSingleton<GameManager>
 		UpdateHud();
 	}
 
-	private void BuyReroll()
-	{
-		PerformReroll();
-		Gold -= rerollCost;
-		isShopLocked = false;
-		HandleButtonPress();
-	}
-
-	private void PerformReroll()
-	{
-		foreach (Transform item in totemShopContainer)
-			Destroy(item.gameObject);
-
-		for (int i = 0; i < shopItemAmount; i++)
-			Instantiate(totemShopButtonPrefab, totemShopContainer);
-	}
-
 	private void LevelUp()
 	{
-		Gold -= levelUpCost;
+		Gold -= levelUpCost ;
 		level++;
 		TotemCap++;
 		HandleButtonPress();
+	}
+
+	public void Reset()
+	{
+		if (stageRoutine != null)
+			StopCoroutine(stageRoutine);
+		
+		SceneManager.LoadScene(0);
 	}
 }

@@ -24,6 +24,6 @@ public class Core : MonoSingleton<Core>
 
 	private void Die()
 	{
-		GameSceneManager.ReloadGame();
+		GameManager.GetInstance().Reset();
 	}
 }
